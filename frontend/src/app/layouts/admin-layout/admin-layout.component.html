@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <div
+    class="sidebar"
+    data-color="danger"
+    data-background-color="white"
+    data-image="./assets/img/sidebar.png"
+  >
+    <app-sidebar></app-sidebar>
+    <div
+      class="sidebar-background"
+      style="background-image: url(./assets/img/sidebar.png);"
+    ></div>
+  </div>
+  <div class="main-panel">
+    <app-navbar></app-navbar>
+    <router-outlet> </router-outlet>
+    <app-footer></app-footer>
+  </div>
+</div>

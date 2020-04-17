@@ -1,0 +1,118 @@
+.transparent {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+/* Add some content at the bottom of the video/page */
+.content {
+  position: fixed;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+.masthead {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 35rem;
+  padding: 15rem 0;
+  background-color: #161616;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: cover;
+}
+#myVideo {
+  display: none;
+}
+@media (min-width: 768px) {
+  .masthead {
+    background: linear-gradient(
+      to bottom,
+      rgba(22, 22, 22, 0.7) 0%,
+      rgba(22, 22, 22, 0.3) 100%,
+      #161616 100%
+    );
+  }
+  #myVideo {
+    display: block;
+  }
+}
+
+.masthead h1 {
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  letter-spacing: 0.8rem;
+  background: -webkit-linear-gradient(
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+.masthead h2 {
+  max-width: 20rem;
+  font-size: 1rem;
+}
+.masthead {
+  height: 100vh;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .masthead h1 {
+    font-size: 4rem;
+    line-height: 4rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .masthead h1 {
+    font-size: 6.5rem;
+    line-height: 6.5rem;
+    letter-spacing: 0.8rem;
+  }
+  .masthead h2 {
+    max-width: 30rem;
+    font-size: 1.25rem;
+  }
+}
+
+body {
+  letter-spacing: 0.0625em;
+}
+
+a {
+  color: #64a19d;
+}
+
+a:focus,
+a:hover {
+  text-decoration: none;
+  color: #3c6360;
+}
+
+.bg-black {
+  background-color: #161616 !important;
+}
+
+.bg-primary {
+  background-color: #64a19d !important;
+}
+
+.text-primary {
+  color: #64a19d !important;
+}
+
+footer {
+  padding: 5rem 0;
+}
