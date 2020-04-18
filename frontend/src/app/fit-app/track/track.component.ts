@@ -12,7 +12,11 @@ declare interface radioImage {
 })
 export class TrackComponent implements OnInit {
   today: Date = new Date();
+  isSubmitted: Boolean = false;
 
+  public submitForm(): void {
+    this.isSubmitted = true;
+  }
   moods: radioImage[] = [
     {
       image: "./assets/img/sad-face.svg",
