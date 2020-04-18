@@ -26,6 +26,12 @@ export const ROUTES: RouteInfo[] = [
     icon: "content_paste",
     class: "",
   },
+  {
+    path: "/fit-app/history",
+    title: "History",
+    icon: "date_range",
+    class: "",
+  },
 ];
 
 @Component({
