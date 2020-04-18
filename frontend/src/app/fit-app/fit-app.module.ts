@@ -9,7 +9,8 @@ import { FitAppRoutingModule } from "./fit-app-routing.module";
 import { FitAppComponent } from "./fit-app.component";
 import { ComponentsModule } from "./components/components.module";
 import { TrackComponent } from "./track/track.component";
-import { HistoryComponent } from '../fit-app/history/history.component';
+import { HistoryComponent } from "./history/history.component";
+import { EditComponent } from "./edit/edit.component";
 
 @NgModule({
   imports: [CommonModule, ComponentsModule, SharedModule, FitAppRoutingModule],
@@ -19,6 +20,7 @@ import { HistoryComponent } from '../fit-app/history/history.component';
     FitAppComponent,
     TrackComponent,
     HistoryComponent,
+    EditComponent,
   ],
   bootstrap: [FitAppComponent],
 })
