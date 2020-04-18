@@ -6,6 +6,7 @@ import { TableListComponent } from "./table-list/table-list.component";
 import { TypographyComponent } from "./typography/typography.component";
 
 const routes: Routes = [
+  { path: "", component: DashboardComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "user-profile", component: UserProfileComponent },
   { path: "table-list", component: TableListComponent },

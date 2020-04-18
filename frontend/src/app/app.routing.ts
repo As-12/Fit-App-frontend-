@@ -11,11 +11,6 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: "fit-app",
-    redirectTo: "fit-app/dashboard",
-    pathMatch: "full",
-  },
-  {
     // Lazy loading the feature
     path: "fit-app",
     loadChildren: () =>
