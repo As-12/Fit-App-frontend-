@@ -3,7 +3,6 @@ import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
 
-import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { HomeComponent } from "./home/home.component";
 
 const routes: Routes = [
@@ -17,26 +16,15 @@ const routes: Routes = [
     pathMatch: "full",
   },
   {
+    // Lazy loading the feature
     path: "fit-app",
-    component: AdminLayoutComponent,
-    children: [
-      {
-        path: "",
-        loadChildren:
-          "./layouts/admin-layout/admin-layout.module#AdminLayoutModule",
-      },
-    ],
+    loadChildren: () =>
+      import("./fit-app/fit-app.module").then((m) => m.FitAppModule),
   },
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    RouterModule.forRoot(routes, {
-      useHash: true,
-    }),
-  ],
+  imports: [CommonModule, BrowserModule, RouterModule.forRoot(routes)],
   exports: [],
 })
 export class AppRoutingModule {}

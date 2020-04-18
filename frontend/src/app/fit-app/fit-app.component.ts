@@ -6,18 +6,17 @@ import {
   PopStateEvent,
 } from "@angular/common";
 import "rxjs/add/operator/filter";
-import { NavbarComponent } from "../../components/navbar/navbar.component";
+import { NavbarComponent } from "./components/navbar/navbar.component";
 import { Router, NavigationEnd, NavigationStart } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import PerfectScrollbar from "perfect-scrollbar";
 import * as $ from "jquery";
-
 @Component({
-  selector: "app-admin-layout",
-  templateUrl: "./admin-layout.component.html",
-  styleUrls: ["./admin-layout.component.scss"],
+  selector: "fit-app",
+  templateUrl: "./fit-app.component.html",
+  styleUrls: ["./fit-app.component.css"],
 })
-export class AdminLayoutComponent implements OnInit {
+export class FitAppComponent implements OnInit {
   private _router: Subscription;
   private lastPoppedUrl: string;
   private yScrollStack: number[] = [];

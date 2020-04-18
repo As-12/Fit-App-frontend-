@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 
-import { ComponentsModule } from "../components/components.module";
 import { PrivacyComponent } from "./dialogs/privacy.component";
 import { LicenseComponent } from "./dialogs/license.component";
 import { MatButtonModule } from "@angular/material/button";
@@ -19,7 +18,6 @@ const sharedModules = [
   FormsModule,
   ReactiveFormsModule,
   HttpModule,
-  ComponentsModule,
   RouterModule,
   MatButtonModule,
   MatRippleModule,
