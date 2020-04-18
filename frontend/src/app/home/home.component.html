@@ -1,4 +1,4 @@
-<video autoplay muted loop id="myVideo">
+<video #myVideo autoplay muted loop id="myVideo">
   <source src="./assets/video/boxing.mp4" type="video/mp4" />
 </video>
 
@@ -12,10 +12,14 @@
         <a class="nav-link js-scroll-trigger" href="#about">GitHub</a>
       </li>
       <li class="nav-item text-white-50">
-        <a class="nav-link js-scroll-trigger" href="#projects">License</a>
+        <a class="nav-link js-scroll-trigger" href="#"
+          ><app-license-dialog></app-license-dialog
+        ></a>
       </li>
       <li class="nav-item text-white-50">
-        <a class="nav-link js-scroll-trigger" href="#signup">Privacy Policy</a>
+        <a class="nav-link js-scroll-trigger" href="#"
+          ><app-privacy-dialog></app-privacy-dialog
+        ></a>
       </li>
       <li class="nav-item text-white-50">
         <a class="nav-link js-scroll-trigger" href="#signup">Contact</a>
@@ -31,7 +35,7 @@
       <h2 class="text-white-50 mx-auto mt-2 mb-5">
         One stop app to track your fitness goal.
       </h2>
-      <a [routerLink]="['/fit-app']" class="btn btn-primary">Sign-In</a>
+      <a class="btn btn-primary">Sign-In</a>
       <a [routerLink]="['/fit-app']" class="btn ml-2 btn-primary">Demo</a>
     </div>
   </div>

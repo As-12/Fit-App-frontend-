@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 
 @Component({
   selector: "app-home",
@@ -9,4 +9,11 @@ export class HomeComponent implements OnInit {
   constructor() {}
   today: Date = new Date();
   ngOnInit(): void {}
+
+  @ViewChild("myVideo") myVideo: any;
+
+  afterViewInit() {
+    let video: HTMLVideoElement = <HTMLVideoElement>this.myVideo.nativeElement;
+    video.play();
+  }
 }
