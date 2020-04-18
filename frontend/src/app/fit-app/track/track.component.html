@@ -1,0 +1,84 @@
+<fit-app>
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title">
+            Track your progress
+          </h4>
+          <p class="card-category">{{ today | date: "mediumDate" }}</p>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Weight</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="" value="500" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Mood</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <mat-radio-group
+                  aria-labelledby="example-radio-group-label"
+                  class="example-radio-group"
+                >
+                  <mat-radio-button
+                    class="example-radio-button ml-5"
+                    disableRipple="true"
+                    *ngFor="let mood of moods"
+                    [value]="mood.value"
+                    [checked]="mood.value === '0'"
+                  >
+                    <img class="mood-img" [src]="mood.image" />
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Diet</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <mat-radio-group
+                  aria-labelledby="example-radio-group-label"
+                  class="example-radio-group"
+                >
+                  <mat-radio-button
+                    class="example-radio-button ml-5"
+                    *ngFor="let mood of moods"
+                    disableRipple="true"
+                    [value]="mood.value"
+                    [checked]="mood.value === '0'"
+                  >
+                    <img class="mood-img" [src]="mood.image" />
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <button
+              mat-raised-button
+              type="submit"
+              class="btn btn-danger pull-right"
+            >
+              Submit
+            </button>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</fit-app>

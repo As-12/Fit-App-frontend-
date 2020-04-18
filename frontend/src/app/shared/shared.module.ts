@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
-
+import { MatRadioModule } from "@angular/material/radio";
 import { PrivacyComponent } from "./dialogs/privacy.component";
 import { LicenseComponent } from "./dialogs/license.component";
 import { MatButtonModule } from "@angular/material/button";
@@ -20,6 +20,7 @@ const sharedModules = [
   HttpModule,
   RouterModule,
   MatButtonModule,
+  MatRadioModule,
   MatRippleModule,
   MatFormFieldModule,
   MatInputModule,

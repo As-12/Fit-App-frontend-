@@ -20,10 +20,9 @@ export const ROUTES: RouteInfo[] = [
     icon: "person",
     class: "",
   },
-  { path: "/fit-app/typography", title: "Text", icon: "person", class: "" },
   {
-    path: "/fit-app/table-list",
-    title: "Table List",
+    path: "/fit-app/track",
+    title: "Track Progress",
     icon: "content_paste",
     class: "",
   },

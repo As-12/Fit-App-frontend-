@@ -2,15 +2,13 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { UserProfileComponent } from "./user-profile/user-profile.component";
-import { TableListComponent } from "./table-list/table-list.component";
-import { TypographyComponent } from "./typography/typography.component";
+import { TrackComponent } from "./track/track.component";
 
 const routes: Routes = [
   { path: "", component: DashboardComponent },
   { path: "dashboard", component: DashboardComponent },
   { path: "user-profile", component: UserProfileComponent },
-  { path: "table-list", component: TableListComponent },
-  { path: "typography", component: TypographyComponent },
+  { path: "track", component: TrackComponent },
 ];
 
 @NgModule({
