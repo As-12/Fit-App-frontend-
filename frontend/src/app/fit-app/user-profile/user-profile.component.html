@@ -1,5 +1,5 @@
 <fit-app>
-  <div class="main-content">
+  <div class="main-content" *ngIf="auth.userProfile$ | async as profile">
     <div class="container-fluid">
       <div class="row row-eq-height">
         <div class="col-md-4">
@@ -7,6 +7,7 @@
             <div class="card-title profile-container">
               <img
                 class="card-img-top profile-image"
+                [src]="profile.picture"
                 src="./assets/img/faces/marc.jpg"
                 alt="Card image cap"
               />
@@ -29,14 +30,20 @@
                 <div class="row">
                   <div class="col-md-6">
                     <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Username" />
+                      <input
+                        matInput
+                        placeholder="Username"
+                        [value]="profile.name"
+                        disabled
+                      />
                     </mat-form-field>
                   </div>
                   <div class="col-md-6">
                     <mat-form-field class="example-full-width">
                       <input
                         matInput
-                        placeholder="Email address"
+                        [value]="profile.email"
+                        disabled
                         type="email"
                       />
                     </mat-form-field>

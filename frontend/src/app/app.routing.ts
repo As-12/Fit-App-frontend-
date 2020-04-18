@@ -4,6 +4,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { Routes, RouterModule } from "@angular/router";
 
 import { HomeComponent } from "./home/home.component";
+import { AuthGuard } from "./auth/auth.guard";
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
     path: "fit-app",
     loadChildren: () =>
       import("./fit-app/fit-app.module").then((m) => m.FitAppModule),
+    canActivate: [AuthGuard],
   },
 ];
 
