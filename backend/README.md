@@ -36,6 +36,9 @@ This will install all of the required packages we selected within the `requireme
 ## Running the server
  the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
 
+Add Local Configuration File
+
+conf/api.local.conf
 
 ## Testing
 To run the tests, run
