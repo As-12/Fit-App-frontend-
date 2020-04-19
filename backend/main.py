@@ -7,7 +7,7 @@ This is an entry point to application
 import logging
 
 import os
-from flask import Flask
+from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 
@@ -16,6 +16,8 @@ from flask_restx import Api
 ############################
 # App Configuration
 ############################
+from auth.auth import requires_auth, AuthError, requires_auth_with_same_user
+
 app = Flask(__name__)
 
 VERSION = 1.0
@@ -83,12 +85,39 @@ def after_request(response):
 @app.route("/health")
 @cross_origin()
 def health_check():
-    logger.info("Health check triggered")
-    return "Fit-App API is running"
-
+    logger.info(f"Health check triggered from {request.remote_addr}")
+    return "The App is running"
 
 # import all controllers
 from controllers import *
+
+
+# Handling common error
+
+@app.errorhandler(422)
+def unprocessable(error="request cannot be processed"):
+    return jsonify({
+        "success": False,
+        "error": 422,
+        "message": str(error)
+    }), 422
+
+
+@app.errorhandler(404)
+def notfound(error):
+    return jsonify({
+        "success": False,
+        "error": 404,
+        "message": "resource not found"
+    }), 404
+
+
+@app.errorhandler(AuthError)
+def handle_auth_error(ex):
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
+
 
 if __name__ == '__main__':
     app.run()
