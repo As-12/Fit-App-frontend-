@@ -34,6 +34,7 @@ elif os.environ['ENV'] == 'test':
     # This is for running test
     app.config.from_pyfile(os.path.join('.', 'conf/api.test.conf'), silent=True)
     logging.getLogger('flask_cors').level = logging.DEBUG
+    logger.level = logging.DEBUG
 else:
     app.config.from_pyfile(os.path.join('.', 'conf/api.local.conf'), silent=True)
     logging.getLogger('flask_cors').level = logging.DEBUG
