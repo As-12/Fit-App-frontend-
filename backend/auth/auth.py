@@ -10,9 +10,8 @@ configParser = ConfigParser()
 configFilePath = r'conf/auth.conf'
 configParser.read(configFilePath)
 
-
 AUTH0_DOMAIN = configParser.get('Auth', 'AUTH0_DOMAIN')
-ALGORITHMS = [configParser.get('Auth',  'AUTH0_ALGORITHM')]
+ALGORITHMS = [configParser.get('Auth', 'AUTH0_ALGORITHM')]
 API_AUDIENCE = configParser.get('Auth', 'AUTH0_API_AUDIENCE')
 
 """
@@ -55,10 +54,11 @@ def get_token_auth_header():
     return token[1]
 
 
-
 def verify_decode_jwt(token):
     """Determines if the Access Token is valid
     """
+
+    # @TODO: Cache JWKs and refetch when decode error. This should really speed up integration test
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
     unverified_header = jwt.get_unverified_header(token)
@@ -110,6 +110,7 @@ def verify_decode_jwt(token):
         'code': 'invalid_header',
         'description': 'Unable to find the appropriate key.'
     }, 400)
+
 
 def check_permissions(permission, payload, user_id):
     """ Authorize scope Permission """
@@ -176,4 +177,3 @@ def requires_auth_with_same_user(permission=''):
         return wrapper
 
     return requires_auth_decorator
-

@@ -9,7 +9,7 @@ from flask import request
 
 from models.user import user_model, user_list_model, user_patch_model
 from database.user import User
-
+from database.progress import Progress
 user_ns = api.namespace('users', description='User operations')
 
 
@@ -77,7 +77,9 @@ class Users(Resource):
     @requires_auth('delete:user')
     @user_ns.response(204, 'User deleted successfully')
     def delete(self, payload, user_id):
-        """Delete existing user. Require delete:user permission"""
+        """Delete existing user. Require delete:user permission
+           This will also delete associated progress for this user
+        """
 
         logger.info(f"DELETE request to user {user_id} from {request.remote_addr}")
         try:
@@ -87,6 +89,11 @@ class Users(Resource):
                 code = 404
                 message = f"User {user_id} does not exist."
             else:
+                associated_progress = Progress.query.filter(Progress.user_id == user_id).all()
+                if associated_progress is not None:
+                    logger.debug(f"DELETE: deleting all progress related to {user_id}")
+                    for progress in associated_progress:
+                        progress.delete()
                 user.delete()
                 code = 204
         except Exception as e:
