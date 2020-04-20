@@ -6,7 +6,7 @@ from main import db
 from dataclasses import dataclass
 
 from datetime import datetime
-from database.user import User
+import database
 
 # List of valid emotional value. Enum is preferred but not supported by Marshmallow
 valid_emotion_value = ["bad", "neutral", "good"]

@@ -1,7 +1,7 @@
 from main import db
 from dataclasses import dataclass
 from datetime import datetime
-
+import database
 
 @dataclass
 class User(db.Model):
@@ -12,6 +12,8 @@ class User(db.Model):
     city: str = db.Column(db.String)
     state: str = db.Column(db.String)
 
+    progress = db.relationship("Progress")
+
     def insert(self):
         """
         insert()
@@ -19,7 +21,7 @@ class User(db.Model):
             the model must have a unique name
             the model must have a unique id or null id
             EXAMPLE
-                user = User(id=user_id, target_weight=120.3, dob=Date())
+                user = User(id=user_id,  target_weight=120.3, dob=Date())
                 user.insert()
         """
         try:
