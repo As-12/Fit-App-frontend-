@@ -9,9 +9,7 @@ import { AuthService } from "./auth.service";
 import { Observable, throwError } from "rxjs";
 import { mergeMap, catchError } from "rxjs/operators";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   constructor(private auth: AuthService) {}
 
@@ -19,7 +17,6 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.log("Intercepter called");
     return this.auth.getTokenSilently$().pipe(
       mergeMap((token) => {
         const tokenReq = req.clone({

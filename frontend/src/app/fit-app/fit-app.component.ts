@@ -83,7 +83,7 @@ export class FitAppComponent implements OnInit {
     let $sidebar_img_container = $sidebar.find(".sidebar-background");
 
     this.http
-      .get("/health")
+      .get("/api/v1/health")
       .toPromise()
       .then((res) => {
         // Success

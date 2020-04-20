@@ -21,6 +21,7 @@ from auth.auth import requires_auth, AuthError, requires_auth_with_same_user
 app = Flask(__name__)
 
 VERSION = 1.0
+API_PREFIX = "/api/v1"
 logger = logging.getLogger('fit_application')
 
 # Configuration Files
@@ -68,7 +69,7 @@ authorizations = {
 }
 
 api = Api(app, version=VERSION, title="Fit-App API", description="Backend API for Fit-App SPA", security='Bearer Auth',
-          authorizations=authorizations)
+          authorizations=authorizations, prefix=API_PREFIX)
 
 # CORS Configuration
 CORS(app)
@@ -82,11 +83,14 @@ def after_request(response):
 
 
 # Health-check
-@app.route("/health")
+@app.route(f"{API_PREFIX}/health")
 @cross_origin()
 def health_check():
     logger.info(f"Health check triggered from {request.remote_addr}")
-    return "The App is running"
+    return jsonify( {
+        "message": "The App is running",
+        "success": True
+    }), 200
 
 # import all controllers
 from controllers import *

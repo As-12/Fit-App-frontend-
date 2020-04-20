@@ -12,6 +12,7 @@ from main import db
 
 import http.client
 
+API_PREFIX = "/api/v1"
 CLIENT_SECRET = os.environ['CLIENT_SECRET']
 CLIENT_ID = os.environ['CLIENT_ID']
 
@@ -64,7 +65,7 @@ class FitAppTestSuite(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_health_endpoint(self):
-        response = self.client().get('/health', follow_redirects=True)
+        response = self.client().get(f'{API_PREFIX}/health', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
     """
@@ -76,12 +77,12 @@ class FitAppTestSuite(unittest.TestCase):
     """
 
     def test_get_user(self):
-        response = self.client().get('/users', headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().get(f'{API_PREFIX}/users', headers={"Authorization": f"Bearer {self.token}"},
                                      follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
     def test_get_user_no_auth(self):
-        response = self.client().get('/users', follow_redirects=True)
+        response = self.client().get(f'{API_PREFIX}/users', follow_redirects=True)
         self.assertEqual(response.status_code, 401)
 
     """
@@ -95,7 +96,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "string",
             "state": "string"
         }
-        response = self.client().post('/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().post(f'{API_PREFIX}/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 422)
 
@@ -106,7 +107,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "string",
             "state": "string"
         }
-        response = self.client().post('/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().post(f'{API_PREFIX}/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 422)
 
@@ -117,7 +118,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "string",
             "state": "string"
         }
-        response = self.client().post('/users', json=data,
+        response = self.client().post(f'{API_PREFIX}/users', json=data,
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 401)
 
@@ -128,26 +129,26 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "string",
             "state": "string"
         }
-        response = self.client().post('/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().post(f'{API_PREFIX}/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 201)
 
         # Cannot post same user twice
-        response = self.client().post('/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().post(f'{API_PREFIX}/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 422)
 
-        response = self.client().get('/users', headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().get(f'{API_PREFIX}/users', headers={"Authorization": f"Bearer {self.token}"},
                                      follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.data)['count'], 1)
 
-        response = self.client().delete(f'/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().delete(f'{API_PREFIX}/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
                                         follow_redirects=True)
         self.assertEqual(response.status_code, 204)
 
-        response = self.client().delete(f'/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().delete(f'{API_PREFIX}/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
                                         follow_redirects=True)
         self.assertEqual(response.status_code, 404)
 
@@ -162,7 +163,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "string",
             "state": "string"
         }
-        response = self.client().post('/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().post(f'{API_PREFIX}/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 201)
 
@@ -172,7 +173,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "Grapevine",
             "state": "Texas"
         }
-        response = self.client().patch(f'/users/{self.subject}', json=data,
+        response = self.client().patch(f'{API_PREFIX}/users/{self.subject}', json=data,
                                        headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
         self.assertEqual(response.status_code, 204)
 
@@ -182,7 +183,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "Grapevine",
             "state": "Texas"
         }
-        response = self.client().patch(f'/users/{self.subject}', json=data,
+        response = self.client().patch(f'{API_PREFIX}/users/{self.subject}', json=data,
                                        headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
 
         self.assertEqual(response.status_code, 422)
@@ -193,12 +194,12 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "Grapevine",
             "state": "Texas"
         }
-        response = self.client().patch(f'/users/{self.subject}', json=data,
+        response = self.client().patch(f'{API_PREFIX}/users/{self.subject}', json=data,
                                        headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
 
         self.assertEqual(response.status_code, 422)
 
-        response = self.client().delete(f'/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().delete(f'{API_PREFIX}/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
                                         follow_redirects=True)
         self.assertEqual(response.status_code, 204)
 
@@ -209,7 +210,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "Grapevine",
             "state": "Texas"
         }
-        response = self.client().patch(f'/users/{self.subject}', json=data,
+        response = self.client().patch(f'{API_PREFIX}/users/{self.subject}', json=data,
                                        headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
 
         self.assertEqual(response.status_code, 404)
@@ -221,7 +222,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "Grapevine",
             "state": "Texas"
         }
-        response = self.client().patch(f'/users/1234', json=data,
+        response = self.client().patch(f'{API_PREFIX}/users/1234', json=data,
                                        headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
 
         self.assertEqual(response.status_code, 403)
@@ -231,11 +232,11 @@ class FitAppTestSuite(unittest.TestCase):
     """
 
     def test_get_all_progress(self):
-        response = self.client().get(f'/progress',
+        response = self.client().get(f'{API_PREFIX}/progress',
                                      headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-        response = self.client().get(f'/progress', follow_redirects=True)
+        response = self.client().get(f'{API_PREFIX}/progress', follow_redirects=True)
         self.assertEqual(response.status_code, 401)
 
     """
@@ -249,22 +250,22 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "string",
             "state": "string"
         }
-        response = self.client().post('/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().post(f'{API_PREFIX}/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 201)
 
-        response = self.client().get(f'/progress/{self.subject}',
+        response = self.client().get(f'{API_PREFIX}/progress/{self.subject}',
                                      headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
-        response = self.client().get(f'/progress/1234', follow_redirects=True,
+        response = self.client().get(f'{API_PREFIX}/progress/1234', follow_redirects=True,
                                      headers={"Authorization": f"Bearer {self.token}"})
         self.assertEqual(response.status_code, 403)
 
-        response = self.client().get(f'/progress/{self.subject}', follow_redirects=True)
+        response = self.client().get(f'{API_PREFIX}/progress/{self.subject}', follow_redirects=True)
         self.assertEqual(response.status_code, 401)
 
-        response = self.client().delete(f'/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().delete(f'{API_PREFIX}/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
                                         follow_redirects=True)
         self.assertEqual(response.status_code, 204)
 
@@ -279,7 +280,7 @@ class FitAppTestSuite(unittest.TestCase):
             "city": "string",
             "state": "string"
         }
-        response = self.client().post('/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().post(f'{API_PREFIX}/users', json=data, headers={"Authorization": f"Bearer {self.token}"},
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 201)
 
@@ -289,23 +290,23 @@ class FitAppTestSuite(unittest.TestCase):
             "mood": "neutral",
             "diet": "neutral"
         }
-        response = self.client().post(f'/progress/{self.subject}', json=data,
+        response = self.client().post(f'{API_PREFIX}/progress/{self.subject}', json=data,
                                       headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
         self.assertEqual(response.status_code, 201)
 
         data["weight"] = 500
-        response = self.client().patch(f'/progress/{self.subject}', json=data,
+        response = self.client().patch(f'{API_PREFIX}/progress/{self.subject}', json=data,
                                        headers={"Authorization": f"Bearer {self.token}"}, follow_redirects=True)
         self.assertEqual(response.status_code, 204)
 
-        response = self.client().post(f'/progress/1234', follow_redirects=True,
+        response = self.client().post(f'{API_PREFIX}/progress/1234', follow_redirects=True,
                                       headers={"Authorization": f"Bearer {self.token}"})
         self.assertEqual(response.status_code, 403)
 
-        response = self.client().patch(f'/progress/{self.subject}', follow_redirects=True)
+        response = self.client().patch(f'{API_PREFIX}/progress/{self.subject}', follow_redirects=True)
         self.assertEqual(response.status_code, 401)
 
-        response = self.client().delete(f'/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
+        response = self.client().delete(f'{API_PREFIX}/users/{self.subject}', headers={"Authorization": f"Bearer {self.token}"},
                                         follow_redirects=True)
         self.assertEqual(response.status_code, 204)
 
