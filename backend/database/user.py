@@ -2,6 +2,8 @@ from main import db
 from dataclasses import dataclass
 from datetime import datetime
 import database
+from dateutil.relativedelta import relativedelta
+
 
 @dataclass
 class User(db.Model):
@@ -25,6 +27,7 @@ class User(db.Model):
                 user.insert()
         """
         try:
+            self.validate()
             db.session.add(self)
             db.session.commit()
         except Exception as e:
@@ -47,7 +50,7 @@ class User(db.Model):
         db.session.commit()
         db.session.close()
 
-    def update(self):
+    def update(self, update_dict=None):
         """
         update()
             updates a new model into a database
@@ -58,9 +61,28 @@ class User(db.Model):
                 user.update()
         """
         try:
+            for key in ["target_weight", "dob", "city", "state"]:
+                if key in update_dict:
+                    setattr(self, key, update_dict[key])
+
+            self.validate()
             db.session.commit()
         except:
             db.session.rollback()
             raise
         finally:
             db.session.close()
+
+    def validate(self):
+        """
+        validate()
+            Validate the model for invalid value.
+            Raise a ValueError for invalid value
+            This function is automatically called upon insert or update
+        """
+        if self.target_weight < 0:
+            raise ValueError("target_weight must be greater or equal to zero")
+
+        date = datetime.strptime(self.dob, '%Y-%m-%d')
+        if date.date() > (datetime.now() - relativedelta(years=13)).date():
+            raise ValueError("You must be at least 13 years old to use this service")

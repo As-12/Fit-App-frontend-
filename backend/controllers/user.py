@@ -36,7 +36,6 @@ class UserList(Resource):
         """Create a new user. Only authenticating user can post
            User ID is defined by the verified subject in the access token
         """
-        print(payload)
         logger.info(f"POST request to create user {payload['sub']} from {request.remote_addr}")
         try:
             user = User(**api.payload)
@@ -44,6 +43,9 @@ class UserList(Resource):
             api.payload['id'] = payload['sub']
             user.insert()
             code = 201
+        except ValueError as e:
+            code = 422
+            message = str(e)
         except IntegrityError:
             code = 422
             message = "Cannot add to existing user. Use Patch request instead"
@@ -111,12 +113,11 @@ class Users(Resource):
                 code = 404
                 message = f"User {user_id} does not exist."
             else:
-                for key in ["target_weight", "dob", "city", "state"]:
-                    if key in api.payload:
-                        setattr(user, key, api.payload[key])
-
-                user.update()
+                user.update(api.payload)
                 code = 204
+        except ValueError as e:
+            message = str(e)
+            code = 422
         except IntegrityError:
             code = 422
             message = "Cannot patch existing user. Use Patch request instead"
