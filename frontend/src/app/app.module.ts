@@ -5,6 +5,9 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./home/home.component";
 import { SharedModule } from "./shared/shared.module";
 import { FitAppModule } from "./fit-app/fit-app.module";
+import { HttpModule } from "@angular/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthInterceptor } from "./auth/auth.interceptor";
 
 @NgModule({
   imports: [
@@ -12,9 +15,13 @@ import { FitAppModule } from "./fit-app/fit-app.module";
     AppRoutingModule,
     SharedModule,
     FitAppModule,
+    HttpClientModule,
+    HttpModule,
   ],
   declarations: [AppComponent, HomeComponent],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

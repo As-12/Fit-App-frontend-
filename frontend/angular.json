@@ -56,7 +56,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "material-dashboard-angular:build"
+            "browserTarget": "material-dashboard-angular:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

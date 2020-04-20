@@ -9,6 +9,7 @@ import {
   combineLatest,
   throwError,
 } from "rxjs";
+
 import { tap, catchError, concatMap, shareReplay } from "rxjs/operators";
 import { Router } from "@angular/router";
 
@@ -22,6 +23,7 @@ export class AuthService {
       domain: "as12production.auth0.com",
       client_id: "QFL5PN4HnxV2pVRN7GLUiHhGkRA2sqJD",
       redirect_uri: `${window.location.origin}`,
+      audience: "Fit-API",
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -58,6 +60,14 @@ export class AuthService {
     return this.auth0Client$.pipe(
       concatMap((client: Auth0Client) => from(client.getUser(options))),
       tap((user) => this.userProfileSubject$.next(user))
+    );
+  }
+
+  // When calling, options can be passed if desired
+  // https://auth0.github.io/auth0-spa-js/classes/auth0client.html#gettokensilently
+  getTokenSilently$(options?): Observable<string> {
+    return this.auth0Client$.pipe(
+      concatMap((client: Auth0Client) => from(client.getTokenSilently(options)))
     );
   }
 
@@ -125,7 +135,7 @@ export class AuthService {
       // Call method to log out
       client.logout({
         client_id: "QFL5PN4HnxV2pVRN7GLUiHhGkRA2sqJD",
-        returnTo: `${window.location.origin}`,
+        returnTo: window.location.origin,
       });
     });
   }
