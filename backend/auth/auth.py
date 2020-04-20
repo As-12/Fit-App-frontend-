@@ -58,7 +58,7 @@ def get_token_auth_header():
 
 def verify_decode_jwt(token):
     """Determines if the Access Token is valid
-        """
+    """
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
     unverified_header = jwt.get_unverified_header(token)
@@ -143,14 +143,14 @@ def requires_auth(permission=''):
 
     def requires_auth_decorator(f):
         @wraps(f)
-        def wrapper(*args, **kwargs):
+        def wrapper(self, *args, **kwargs):
             try:
                 token = get_token_auth_header()
                 payload = verify_decode_jwt(token)
                 check_permissions(permission, payload, '')
             except AuthError as e:
                 abort(e.status_code, e.error)
-            return f(payload, *args, **kwargs)
+            return f(self, payload, *args, **kwargs)
 
         return wrapper
 
@@ -164,14 +164,14 @@ def requires_auth_with_same_user(permission=''):
 
     def requires_auth_decorator(f):
         @wraps(f)
-        def wrapper(user_id, *args, **kwargs):
+        def wrapper(self, user_id, *args, **kwargs):
             try:
                 token = get_token_auth_header()
                 payload = verify_decode_jwt(token)
                 check_permissions(permission, payload, user_id)
             except AuthError as e:
                 abort(e.status_code, e.error)
-            return f(user_id, payload, *args, **kwargs)
+            return f(self, payload, user_id, *args, **kwargs)
 
         return wrapper
 

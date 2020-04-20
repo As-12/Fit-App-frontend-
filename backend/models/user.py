@@ -2,7 +2,7 @@ from main import api
 from flask_restx import fields
 
 user_model = api.model('user_model', {
-    'id': fields.String(description='IdP provided user-id'),
+    'id': fields.String(readonly=True, description='IdP provided user-id'),
     'target_weight': fields.Float(description='User target weight', required=False),
     'dob': fields.Date(description='Date of birth', required=False),
     'city': fields.String(description='City', required=False),
