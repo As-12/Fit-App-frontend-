@@ -10,14 +10,10 @@ from flask_restx import Resource, abort
 from flask import request
 
 from models.progress import progress_model, progress_list_model, all_progress_model
-from database.progress import Progress, valid_emotion_value
+from database.progress import Progress
 from database.user import User
 
 progress_ns = api.namespace('progress', description='Progress operations')
-
-
-class IllegalArgumentError(ValueError):
-    pass
 
 
 @progress_ns.route('/')
@@ -76,31 +72,21 @@ class Progresses(Resource):
                 code = 404
                 message = f"Cannot track progress for {user_id}. User does not exist."
             else:
-                if api.payload["mood"].lower() not in valid_emotion_value:
-                    raise ValueError("Mood does not contain valid value")
-                if api.payload["diet"].lower() not in valid_emotion_value:
-                    raise ValueError("Mood does not contain valid value")
-
-                date = datetime.strptime(api.payload["track_date"], '%Y-%m-%d')
-                if date.date() != datetime.today().date():
-                    raise IllegalArgumentError()
 
                 track_date = api.payload["track_date"]
                 weight = api.payload["weight"]
-                emotion = api.payload["mood"].lower()
+                mood = api.payload["mood"].lower()
                 diet = api.payload["diet"].lower()
                 api.payload["user_id"] = user_id
+
                 progress = Progress(user_id=user_id, track_date=track_date, weight=weight,
-                                    mood=emotion, diet=diet)
+                                    mood=mood, diet=diet)
                 progress.insert()
                 code = 201
 
-        except IllegalArgumentError:
+        except ValueError as e:
             code = 422
-            message = f"Progress can only be created for today {datetime.today().date()}"
-        except ValueError:
-            code = 400
-            message = "Mood or Diet does not contain valid value of (Bad, Neutral, Good)"
+            message = str(e)
         except IntegrityError:
             code = 422
             message = "Cannot add to existing progress. Use Patch request instead"
@@ -123,35 +109,24 @@ class Progresses(Resource):
         logger.info(f"PATCH request to progress for {user_id} from {request.remote_addr}")
         try:
             user = User.query.get(user_id)
+            track_date = api.payload["track_date"]
+
             if user is None:
                 code = 404
                 message = f"Cannot modify progress for {user_id}. User does not exist."
             else:
-                if api.payload["mood"].lower() not in valid_emotion_value:
-                    raise ValueError("Mood does not contain valid value")
-                if api.payload["diet"].lower() not in valid_emotion_value:
-                    raise ValueError("Mood does not contain valid value")
-
-                track_date = api.payload["track_date"]
-                weight = api.payload["weight"]
-                emotion = api.payload["mood"].lower()
-                diet = api.payload["diet"].lower()
-
                 progress = Progress.query.filter(Progress.user_id == user_id) \
                     .filter(Progress.track_date == track_date).first()
                 if progress is None:
                     code = 404
                     message = f"Cannot modify progress for {track_date}. This progress does not exist."
                 else:
-                    progress.weight = weight
-                    progress.emotion = emotion
-                    progress.diet = diet
-                    progress.update()
+                    progress.update(api.payload)
                     code = 204
 
-        except ValueError:
-            code = 400
-            message = "Mood or Diet does not contain valid value of (Bad, Neutral, Good)"
+        except ValueError as e:
+            code = 422
+            message = str(e)
         except IntegrityError:
             code = 422
             message = "Cannot add to existing progress. Use Patch request instead"

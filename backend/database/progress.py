@@ -32,14 +32,14 @@ class Progress(db.Model):
                progress.insert()
         """
         try:
-            if self.mood not in valid_emotion_value:
-                raise ValueError("Mood value is invalid")
-            if self.diet not in valid_emotion_value:
-                raise ValueError("Diet value is invalid")
+            self.validate()
+            # You can only insert today's progress
+            date = datetime.strptime(self.track_date, '%Y-%m-%d')
+            if date.date() != datetime.today().date():
+                raise ValueError("You can only track progress for today")
             db.session.add(self)
             db.session.commit()
         except Exception as e:
-            print(e)
             db.session.rollback()
             raise
         finally:
@@ -58,7 +58,7 @@ class Progress(db.Model):
         db.session.commit()
         db.session.close()
 
-    def update(self):
+    def update(self, update_dict=None):
         """
        update()
            updates a new model into a database
@@ -69,13 +69,26 @@ class Progress(db.Model):
                progress.update()
         """
         try:
-            if self.mood not in valid_emotion_value:
-                raise ValueError("Mood value is invalid")
-            if self.diet not in valid_emotion_value:
-                raise ValueError("Diet value is invalid")
+            self.validate()
+            if update_dict is not None:
+                self.weight = update_dict["weight"]
+                self.mood = update_dict["mood"].lower()
+                self.diet = update_dict["diet"].lower()
             db.session.commit()
         except:
             db.session.rollback()
             raise
         finally:
             db.session.close()
+
+    def validate(self):
+        """
+       validate()
+           Validate the model for invalid value.
+           Raise a ValueError for invalid value
+           This function is automatically called upon insert or update
+        """
+        if self.mood.lower() not in valid_emotion_value:
+            raise ValueError("Mood does not contain valid value")
+        if self.diet.lower() not in valid_emotion_value:
+            raise ValueError("Diet does not contain valid value")

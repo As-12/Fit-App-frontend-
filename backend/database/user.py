@@ -61,10 +61,10 @@ class User(db.Model):
                 user.update()
         """
         try:
-            for key in ["target_weight", "dob", "city", "state"]:
-                if key in update_dict:
-                    setattr(self, key, update_dict[key])
-
+            if update_dict is not None:
+                for key in ["target_weight", "dob", "city", "state"]:
+                    if key in update_dict:
+                        setattr(self, key, update_dict[key])
             self.validate()
             db.session.commit()
         except:
