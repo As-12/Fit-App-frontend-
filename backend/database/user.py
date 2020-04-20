@@ -1,6 +1,7 @@
 from main import db
 from dataclasses import dataclass
-from datetime import  datetime
+from datetime import datetime
+
 
 @dataclass
 class User(db.Model):
@@ -11,17 +12,16 @@ class User(db.Model):
     city: str = db.Column(db.String)
     state: str = db.Column(db.String)
 
-    '''
-    insert()
-        inserts a new model into a database
-        the model must have a unique name
-        the model must have a unique id or null id
-        EXAMPLE
-            user = User(id=user_id, target_weight=120.3, dob=Date())
-            user.insert()
-    '''
-
     def insert(self):
+        """
+        insert()
+            inserts a new model into a database
+            the model must have a unique name
+            the model must have a unique id or null id
+            EXAMPLE
+                user = User(id=user_id, target_weight=120.3, dob=Date())
+                user.insert()
+        """
         try:
             db.session.add(self)
             db.session.commit()
@@ -32,32 +32,29 @@ class User(db.Model):
         finally:
             db.session.close()
 
-
-    '''
-    delete()
-        deletes a new model into a database
-        the model must exist in the database
-        EXAMPLE
-            user = User(id=user_id, target_weight=120.3, dob=Date())
-            user.delete()
-    '''
-
     def delete(self):
+        """
+        delete()
+            deletes a new model into a database
+            the model must exist in the database
+            EXAMPLE
+                user = User(id=user_id, target_weight=120.3, dob=Date())
+                user.delete()
+        """
         db.session.delete(self)
         db.session.commit()
         db.session.close()
 
-    '''
-    update()
-        updates a new model into a database
-        the model must exist in the database
-        EXAMPLE
-            user = User(id=user_id, target_weight=120.3, dob=Date())
-            user.target_weight = 200.5 
-            user.update()
-    '''
-
     def update(self):
+        """
+        update()
+            updates a new model into a database
+            the model must exist in the database
+            EXAMPLE
+                user = User(id=user_id, target_weight=120.3, dob=Date())
+                user.target_weight = 200.5
+                user.update()
+        """
         try:
             db.session.commit()
         except:
