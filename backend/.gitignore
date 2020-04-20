@@ -3,3 +3,4 @@ __pycache__
 .DS_Store
 
 conf/api.local.conf
+test.sh
