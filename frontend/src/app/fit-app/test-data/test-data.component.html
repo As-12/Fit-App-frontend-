@@ -1,0 +1,32 @@
+<fit-app>
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title">
+            Generate Test Data
+          </h4>
+          <p class="card-category">
+            Create test data for this user
+          </p>
+        </div>
+        <div class="card-body">
+          Test functionality to generate random progress for the past 14 days.
+
+          <button
+            *ngIf="auth.userProfile$ | async as profile"
+            [disabled]="isSubmitted"
+            mat-raised-button
+            type="submit"
+            class="btn btn-danger pull-right"
+            (click)="createTestData(profile.sub)"
+          >
+            Generate Test Data
+          </button>
+
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</fit-app>

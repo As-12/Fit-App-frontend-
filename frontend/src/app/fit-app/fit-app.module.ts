@@ -11,6 +11,7 @@ import { ComponentsModule } from "./components/components.module";
 import { TrackComponent } from "./track/track.component";
 import { HistoryComponent } from "./history/history.component";
 import { EditComponent } from "./edit/edit.component";
+import { TestDataComponent } from './test-data/test-data.component';
 
 @NgModule({
   imports: [CommonModule, ComponentsModule, SharedModule, FitAppRoutingModule],
@@ -21,6 +22,7 @@ import { EditComponent } from "./edit/edit.component";
     TrackComponent,
     HistoryComponent,
     EditComponent,
+    TestDataComponent,
   ],
   bootstrap: [FitAppComponent],
 })

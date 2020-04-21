@@ -1,5 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Observable, of, ReplaySubject, BehaviorSubject } from "rxjs";
+import {
+  Observable,
+  of,
+  ReplaySubject,
+  BehaviorSubject,
+  throwError,
+  empty,
+} from "rxjs";
 import { User } from "../model/user.model";
 import { AuthService } from "app/auth/auth.service";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
@@ -50,8 +57,8 @@ export class ProgressService {
 
   public trackProgress(progress: Progress): Observable<Progress> {
     if (this.user_id === "") {
-      return Observable.throw(
-        Error("Oop! it looks like user profile has not been fully loaded")
+      return throwError(
+        "Oop! it looks like user profile has not been fully loaded"
       );
     }
     let apiURL = `${this._api}/${this.user_id}`;
@@ -79,5 +86,23 @@ export class ProgressService {
       count: res.count,
     };
     return response;
+  }
+
+  public async createTestData(user_id): Promise<any> {
+    if (user_id === "") {
+      return throwError(
+        "Oop! it looks like user profile has not been fully loaded"
+      );
+    }
+    let apiURL = `${this._api}/test/${user_id}`;
+    await this.http.get<any>(apiURL).toPromise();
+    let refreshURL = `${this._api}/${user_id}`;
+    return this.http
+      .get<ProgressList>(refreshURL)
+      .toPromise()
+      .then((resp) => {
+        console.log(resp);
+        this._progress.next(resp);
+      });
   }
 }
