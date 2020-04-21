@@ -1,116 +1,126 @@
 <fit-app>
-  <div class="main-content" *ngIf="auth.userProfile$ | async as profile">
-    <div class="container-fluid">
-      <div class="row row-eq-height">
-        <div class="col-md-4">
-          <div class="card">
-            <div class="card-title profile-container">
-              <img
-                class="card-img-top profile-image"
-                [src]="profile.picture"
-                src="./assets/img/faces/marc.jpg"
-                alt="Card image cap"
-              />
-              <div class="middle">
-                <button mat-raised-button class="btn btn-danger">
-                  Upload
-                </button>
+  <div class="main-content" *ngIf="auth.userProfile$ | async as authProfile">
+    <div *ngIf="userService.user$ | async as userProfile">
+      <div class="container-fluid">
+        <div class="row row-eq-height">
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-title profile-container">
+                <img
+                  class="card-img-top profile-image"
+                  [src]="authProfile.picture"
+                  src="./assets/img/faces/marc.jpg"
+                  alt="Card image cap"
+                />
+                <div class="middle">
+                  <button
+                    mat-raised-button
+                    class="btn btn-danger"
+                    (click)="
+                      notification.showNotification(
+                        'Feature not yet implemented',
+                        'info'
+                      )
+                    "
+                  >
+                    Upload
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-8">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Your Profile</h4>
-              <p class="card-category">Complete your profile</p>
-            </div>
-            <div class="card-body">
-              <form>
-                <div class="row">
-                  <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                      <input
-                        matInput
-                        placeholder="Username"
-                        [value]="profile.name"
-                        disabled
-                      />
-                    </mat-form-field>
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Your Profile</h4>
+                <p class="card-category">Complete your profile</p>
+              </div>
+              <div class="card-body">
+                <form #userForm="ngForm" (ngSubmit)="updateUser(userForm)">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-form-field class="example-full-width">
+                        <input
+                          matInput
+                          placeholder="Username"
+                          [value]="authProfile.name"
+                          disabled
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="example-full-width">
+                        <input
+                          matInput
+                          [value]="userProfile.id"
+                          disabled
+                          type="email"
+                        />
+                      </mat-form-field>
+                    </div>
                   </div>
-                  <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                      <input
-                        matInput
-                        [value]="profile.email"
-                        disabled
-                        type="email"
-                      />
-                    </mat-form-field>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
+                        <input
+                          matInput
+                          placeholder="City"
+                          type="text"
+                          [(ngModel)]="user.city"
+                          name="city"
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
+                        <input
+                          matInput
+                          placeholder="State/Country"
+                          type="text"
+                          [(ngModel)]="user.state"
+                          name="state"
+                        />
+                      </mat-form-field>
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Fist Name" type="text" />
-                    </mat-form-field>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
+                        <input
+                          matInput
+                          placeholder="Height(cm)"
+                          type="text"
+                          [(ngModel)]="user.height"
+                          name="height"
+                          pattern="^\d+\.?\d{0,2}$"
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width">
+                        <input
+                          #target_weight
+                          matInput
+                          placeholder="Goal weight(kg)"
+                          type="number"
+                          [(ngModel)]="user.target_weight"
+                          name="target_weight"
+                          pattern="^\d+\.?\d{0,2}$"
+                        />
+                      </mat-form-field>
+                    </div>
                   </div>
-                  <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Last Name" type="text" />
-                    </mat-form-field>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <mat-form-field class="example-full-width">
-                      <input matInput placeholder="City" type="text" />
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-4">
-                    <mat-form-field class="example-full-width">
-                      <input matInput placeholder="State/Country" type="text" />
-                    </mat-form-field>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Age" type="text" />
-                    </mat-form-field>
-                  </div>
-                  <div class="col-md-4">
-                    <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Goal weight" type="text" />
-                    </mat-form-field>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <mat-form-field class="example-full-width">
-                      <textarea
-                        matInput
-                        placeholder="My fitness goals"
-                      ></textarea>
-                    </mat-form-field>
-                    <!-- <div class="form-group">
-
-                                      <div class="form-group">
-                                          <label class="bmd-label-floating"> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
-                                          <textarea class="form-control" rows="5"></textarea>
-                                      </div>
-                                  </div> -->
-                  </div>
-                </div>
-                <button
-                  mat-raised-button
-                  type="submit"
-                  class="btn btn-danger pull-right"
-                >
-                  Update Profile
-                </button>
-                <div class="clearfix"></div>
-              </form>
+                  <button
+                    [disabled]="isSubmitDisabled || userForm.invalid"
+                    mat-raised-button
+                    type="submit"
+                    class="btn btn-danger pull-right"
+                  >
+                    Update Profile
+                  </button>
+                  <div class="clearfix"></div>
+                </form>
+              </div>
             </div>
           </div>
         </div>

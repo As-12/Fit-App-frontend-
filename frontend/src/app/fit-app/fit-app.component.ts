@@ -6,12 +6,11 @@ import {
   PopStateEvent,
 } from "@angular/common";
 import "rxjs/add/operator/filter";
-import { NavbarComponent } from "./components/navbar/navbar.component";
 import { Router, NavigationEnd, NavigationStart } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import PerfectScrollbar from "perfect-scrollbar";
 import * as $ from "jquery";
-import { HttpClient } from "@angular/common/http";
+
 @Component({
   selector: "fit-app",
   templateUrl: "./fit-app.component.html",
@@ -22,11 +21,7 @@ export class FitAppComponent implements OnInit {
   private lastPoppedUrl: string;
   private yScrollStack: number[] = [];
 
-  constructor(
-    public location: Location,
-    private router: Router,
-    private http: HttpClient
-  ) {}
+  constructor(public location: Location, private router: Router) {}
 
   ngOnInit() {
     const isWindows = navigator.platform.indexOf("Win") > -1 ? true : false;
@@ -81,14 +76,6 @@ export class FitAppComponent implements OnInit {
     let $sidebar = $(".sidebar");
     let $sidebar_responsive = $("body > .navbar-collapse");
     let $sidebar_img_container = $sidebar.find(".sidebar-background");
-
-    this.http
-      .get("/api/v1/health")
-      .toPromise()
-      .then((res) => {
-        // Success
-        console.log(res);
-      });
   }
   ngAfterViewInit() {
     this.runOnRouteChange();

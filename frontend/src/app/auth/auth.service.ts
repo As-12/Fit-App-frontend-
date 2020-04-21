@@ -8,6 +8,7 @@ import {
   BehaviorSubject,
   combineLatest,
   throwError,
+  ReplaySubject,
 } from "rxjs";
 
 import { tap, catchError, concatMap, shareReplay } from "rxjs/operators";
@@ -41,7 +42,7 @@ export class AuthService {
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
   );
   // Create subject and public observable of user profile data
-  private userProfileSubject$ = new BehaviorSubject<any>(null);
+  private userProfileSubject$ = new ReplaySubject<any>();
   userProfile$ = this.userProfileSubject$.asObservable();
   // Create a local property for login status
   loggedIn: boolean = null;
