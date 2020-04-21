@@ -92,7 +92,7 @@ class FitAppTestSuite(unittest.TestCase):
     def test_post_user_invalid_weight(self):
         data = {
             "target_weight": -20,
-            "dob": "2020-04-20",
+            "height": 20,
             "city": "string",
             "state": "string"
         }
@@ -100,10 +100,10 @@ class FitAppTestSuite(unittest.TestCase):
                                       follow_redirects=True)
         self.assertEqual(response.status_code, 422)
 
-    def test_post_user_bad_dob(self):
+    def test_post_user_bad_weight(self):
         data = {
             "target_weight": 0,
-            "dob": "2099-04-20",
+            "height": -20,
             "city": "string",
             "state": "string"
         }
@@ -114,7 +114,7 @@ class FitAppTestSuite(unittest.TestCase):
     def test_post_user_no_auth(self):
         data = {
             "target_weight": 0,
-            "dob": "2020-04-20",
+            "height": 20,
             "city": "string",
             "state": "string"
         }
@@ -125,7 +125,7 @@ class FitAppTestSuite(unittest.TestCase):
     def test_post_and_delete_user(self):
         data = {
             "target_weight": 0,
-            "dob": "2000-04-20",
+            "height": 20,
             "city": "string",
             "state": "string"
         }
@@ -159,7 +159,7 @@ class FitAppTestSuite(unittest.TestCase):
     def test_patch_user(self):
         data = {
             "target_weight": 0,
-            "dob": "2000-04-20",
+            "height": 20,
             "city": "string",
             "state": "string"
         }
@@ -169,7 +169,7 @@ class FitAppTestSuite(unittest.TestCase):
 
         data = {
             "target_weight": 25,
-            "dob": "2000-04-20",
+            "height": 20,
             "city": "Grapevine",
             "state": "Texas"
         }
@@ -179,7 +179,7 @@ class FitAppTestSuite(unittest.TestCase):
 
         data = {
             "target_weight": -10,
-            "dob": "2000-04-20",
+            "height": 20,
             "city": "Grapevine",
             "state": "Texas"
         }
@@ -190,7 +190,7 @@ class FitAppTestSuite(unittest.TestCase):
 
         data = {
             "target_weight": 10,
-            "dob": "2999-04-20",
+            "height": -20,
             "city": "Grapevine",
             "state": "Texas"
         }
@@ -206,7 +206,7 @@ class FitAppTestSuite(unittest.TestCase):
     def test_patch_no_user(self):
         data = {
             "target_weight": 25,
-            "dob": "2000-04-20",
+            "height": 20,
             "city": "Grapevine",
             "state": "Texas"
         }
@@ -218,7 +218,7 @@ class FitAppTestSuite(unittest.TestCase):
     def test_patch_different_user(self):
         data = {
             "target_weight": 25,
-            "dob": "2000-04-20",
+            "height": 20,
             "city": "Grapevine",
             "state": "Texas"
         }
@@ -246,7 +246,7 @@ class FitAppTestSuite(unittest.TestCase):
     def test_get_progress(self):
         data = {
             "target_weight": 0,
-            "dob": "2000-04-20",
+            "height": 20,
             "city": "string",
             "state": "string"
         }
@@ -276,7 +276,7 @@ class FitAppTestSuite(unittest.TestCase):
     def test_post_patch_progress(self):
         data = {
             "target_weight": 0,
-            "dob": "2000-04-20",
+            "height": 20,
             "city": "string",
             "state": "string"
         }

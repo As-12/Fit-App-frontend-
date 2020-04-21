@@ -1,8 +1,6 @@
 from main import db
 from dataclasses import dataclass
-from datetime import datetime
 import database
-from dateutil.relativedelta import relativedelta
 
 
 @dataclass
@@ -10,7 +8,7 @@ class User(db.Model):
     __tablename__ = 'user'
     id: str = db.Column(db.String, primary_key=True, autoincrement=False)
     target_weight: float = db.Column(db.Float, nullable=False)
-    dob: datetime = db.Column(db.DateTime, nullable=False)
+    height: float = db.Column(db.Float, nullable=False)
     city: str = db.Column(db.String)
     state: str = db.Column(db.String)
 
@@ -62,7 +60,7 @@ class User(db.Model):
         """
         try:
             if update_dict is not None:
-                for key in ["target_weight", "dob", "city", "state"]:
+                for key in ["target_weight", "height", "city", "state"]:
                     if key in update_dict:
                         setattr(self, key, update_dict[key])
             self.validate()
@@ -83,6 +81,5 @@ class User(db.Model):
         if self.target_weight < 0:
             raise ValueError("target_weight must be greater or equal to zero")
 
-        date = datetime.strptime(self.dob, '%Y-%m-%d')
-        if date.date() > (datetime.now() - relativedelta(years=13)).date():
-            raise ValueError("You must be at least 13 years old to use this service")
+        if self.height < 0:
+            raise ValueError("height must be greater or equal to zero")
