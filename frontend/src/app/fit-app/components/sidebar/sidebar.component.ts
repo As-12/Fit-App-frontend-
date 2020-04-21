@@ -32,6 +32,12 @@ export const ROUTES: RouteInfo[] = [
     icon: "date_range",
     class: "",
   },
+  {
+    path: "/fit-app/test",
+    title: "Generate Test Data",
+    icon: "add_box",
+    class: "",
+  },
 ];
 
 @Component({

@@ -92,3 +92,18 @@ class Progress(db.Model):
             raise ValueError("Mood does not contain valid value")
         if self.diet.lower() not in valid_emotion_value:
             raise ValueError("Diet does not contain valid value")
+
+    def insert_test(self):
+        """
+               insert_test()
+                  test method to be used to insert test data
+        """
+        try:
+            self.validate()
+            db.session.add(self)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            raise
+        finally:
+            db.session.close()

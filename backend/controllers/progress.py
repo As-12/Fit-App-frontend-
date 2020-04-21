@@ -1,5 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from random import random, randint
 
+from sqlalchemy import desc
 from sqlalchemy.exc import IntegrityError
 
 from auth.auth import requires_auth_with_same_user, requires_auth
@@ -34,6 +36,45 @@ class ProgressList(Resource):
         return response
 
 
+@progress_ns.route('/test/<user_id>')
+class ProgressesTest(Resource):
+
+    def create_random_data(self, date, user_id):
+        try:
+            track_date = date.strftime('%Y-%m-%d')
+            weight = round(100 - random() * 20,2)
+            mood_array = ["bad","neutral","good"]
+            mood = mood_array[randint(0, 2)]
+            diet = mood_array[randint(0, 2)]
+            progress = Progress(user_id=user_id, track_date=track_date, weight=weight,
+                                mood=mood, diet=diet)
+            progress.insert_test()
+        except Exception as e:
+            print(e)
+
+
+    @requires_auth_with_same_user()
+    def get(self, payload, user_id):
+        """TEST Endpoint. Generate  artificial user's progress"""
+
+        logger.info(f"GET request to generate test progress list for {user_id} from {request.remote_addr}")
+        user = User.query.get(user_id)
+        if user is None:
+            code = 404
+            message = f"Cannot generated progress for {user_id}. User does not exist."
+            abort(code, message)
+        else:
+            d = datetime.today() - timedelta(days=1)
+            for _ in range(0,14):
+                self.create_random_data(d, user_id)
+                d = d - timedelta(days=1)
+
+            response = {
+                "success": True,
+                "message": "data has been generated"
+            }
+            return response
+
 @progress_ns.route('/<user_id>')
 class Progresses(Resource):
 
@@ -51,7 +92,7 @@ class Progresses(Resource):
             abort(code, message)
 
         else:
-            progress_list = Progress.query.filter(Progress.user_id == user_id).all()
+            progress_list = Progress.query.filter(Progress.user_id == user_id).order_by(desc(Progress.track_date)).all()
             response = {
                 "user_id": user_id,
                 "progresses": progress_list,
@@ -139,3 +180,5 @@ class Progresses(Resource):
             abort(code, message)
 
         return '', 204
+
+
