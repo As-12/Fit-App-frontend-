@@ -8,6 +8,7 @@ import { FitAppModule } from "./fit-app/fit-app.module";
 import { HttpModule } from "@angular/http";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "./auth/auth.interceptor";
+import { DatePipe } from "@angular/common";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { AuthInterceptor } from "./auth/auth.interceptor";
   declarations: [AppComponent, HomeComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    DatePipe,
   ],
   bootstrap: [AppComponent],
 })

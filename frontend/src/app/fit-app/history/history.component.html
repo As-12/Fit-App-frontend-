@@ -1,186 +1,104 @@
 <fit-app>
   <div class="main-content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header card-header-primary">
-              <h4 class="card-title">Submission History</h4>
-              <p class="card-category">Your Progress</p>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table">
-                  <thead class="text-primary">
-                    <th>
-                      Date
-                    </th>
-                    <th>
-                      Weight
-                    </th>
-                    <th>
-                      Mood
-                    </th>
-                    <th>
-                      Diet
-                    </th>
-                    <th>
-                      Option
-                    </th>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        1-10-2015
-                      </td>
-                      <td>
-                        220 lbs
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          EDIT
-                        </button>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          DELETE
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        1-10-2015
-                      </td>
-                      <td>
-                        220 lbs
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          EDIT
-                        </button>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          DELETE
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        1-10-2015
-                      </td>
-                      <td>
-                        220 lbs
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          EDIT
-                        </button>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          DELETE
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        1-10-2015
-                      </td>
-                      <td>
-                        220 lbs
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          EDIT
-                        </button>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          DELETE
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        1-10-2015
-                      </td>
-                      <td>
-                        220 lbs
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <img class="mood-img" src="./assets/img/sad-face.svg" />
-                      </td>
-                      <td>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          EDIT
-                        </button>
-                        <button
-                          mat-raised-button
-                          class="btn btn-danger"
-                          disabled
-                        >
-                          DELETE
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+    <div *ngIf="progressService.progress$ | async as progressList">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Submission History</h4>
+                <p class="card-category">Your Progress</p>
+              </div>
+              <div class="card-body">
+                <p *ngIf="progressList.progresses.length <= 0">
+                  You do not have any history yet.
+                </p>
+                <div
+                  class="table-responsive"
+                  *ngIf="progressList.progresses.length > 0"
+                >
+                  <table class="table">
+                    <thead class="text-primary">
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        Weight
+                      </th>
+                      <th>
+                        Mood
+                      </th>
+                      <th>
+                        Diet
+                      </th>
+                      <th>
+                        Option
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let progress of progressList.progresses">
+                        <td>
+                          {{ progress.track_date | date: "mediumDate" }}
+                        </td>
+                        <td>
+                          {{ progress.weight }}
+                        </td>
+                        <td [ngSwitch]="progress.mood">
+                          <!-- the same view can be shown in more than one case -->
+                          <img
+                            *ngSwitchCase="'good'"
+                            class="mood-img"
+                            src="./assets/img/happy-face.svg"
+                          />
+                          <img
+                            *ngSwitchCase="'neutral'"
+                            class="mood-img"
+                            src="./assets/img/neutral-face.svg"
+                          />
+                          <img
+                            *ngSwitchCase="'bad'"
+                            class="mood-img"
+                            src="./assets/img/sad-face.svg"
+                          />
+                        </td>
+                        <td [ngSwitch]="progress.diet">
+                          <!-- the same view can be shown in more than one case -->
+                          <img
+                            *ngSwitchCase="'good'"
+                            class="mood-img"
+                            src="./assets/img/happy-face.svg"
+                          />
+                          <img
+                            *ngSwitchCase="'neutral'"
+                            class="mood-img"
+                            src="./assets/img/neutral-face.svg"
+                          />
+                          <img
+                            *ngSwitchCase="'bad'"
+                            class="mood-img"
+                            src="./assets/img/sad-face.svg"
+                          />
+                        </td>
+                        <td>
+                          <button
+                            mat-raised-button
+                            class="btn btn-danger"
+                            disabled
+                          >
+                            EDIT
+                          </button>
+                          <button
+                            mat-raised-button
+                            class="btn btn-danger"
+                            disabled
+                          >
+                            DELETE
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

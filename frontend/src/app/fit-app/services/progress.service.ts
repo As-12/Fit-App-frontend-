@@ -1,25 +1,83 @@
-/* import { Injectable } from "@angular/core";
-import { FitAppModule } from "../fit-app.module";
+import { Injectable } from "@angular/core";
+import { Observable, of, ReplaySubject, BehaviorSubject } from "rxjs";
+import { User } from "../model/user.model";
+import { AuthService } from "app/auth/auth.service";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { switchMap, map, retry, catchError } from "rxjs/operators";
+import { NotificationService } from "./notification.service";
+import { UserService } from "./user.service";
+import { ProgressList, Progress } from "../model/progress.model";
 
 @Injectable({
-  providedIn: FitAppModule,
+  providedIn: "root",
 })
 export class ProgressService {
-  constructor() {
-  
+  private _progress: BehaviorSubject<ProgressList> = new BehaviorSubject(null);
+
+  public readonly progress$: Observable<
+    ProgressList
+  > = this._progress.asObservable();
+
+  private _api: string = "/api/v1/progress";
+  public user_id: string = "";
+
+  constructor(
+    private auth: AuthService,
+    private userService: UserService,
+    private http: HttpClient,
+    private notificationService: NotificationService
+  ) {
+    this.userService.user$
+      .pipe(
+        switchMap((user) => {
+          return this.get_user_progress(user);
+        })
+      )
+      .subscribe((res) => {
+        this._progress.next(res);
+      });
   }
 
-  addTodo(newTodo:Todo):Observable {
-    let obs = this.todoBackendService.saveTodo(newTodo);
+  public get_user_progress(user: User): Observable<ProgressList> {
+    let apiURL = `${this._api}/${user.id}`;
+    return this.http.get<ProgressList>(apiURL).pipe(
+      retry(1),
+      map((res) => {
+        return this.mapResponse(res);
+      })
+    );
+  }
 
-    obs.subscribe(
-            res => {
-                this._todos.next(this._todos.getValue().push(newTodo));
-            });
+  public trackProgress(progress: Progress): Observable<Progress> {
+    if (this.user_id === "") {
+      return Observable.throw(
+        Error("Oop! it looks like user profile has not been fully loaded")
+      );
+    }
+    let apiURL = `${this._api}/${this.user_id}`;
+    return this.http.post<Progress>(apiURL, progress).pipe(
+      retry(1),
+      map((resp) => {
+        let currentList = this._progress.getValue().progresses;
+        currentList.push(resp);
+        let newValue: ProgressList = {
+          user_id: this.user_id,
+          progresses: currentList,
+          count: currentList.length,
+        };
+        this._progress.next(newValue);
+        return resp;
+      })
+    );
+  }
 
-    return obs;
+  private mapResponse(res: ProgressList): ProgressList {
+    this.user_id = res.user_id;
+    let response: ProgressList = {
+      user_id: res.user_id,
+      progresses: res.progresses,
+      count: res.count,
+    };
+    return response;
+  }
 }
-
-
-}
- */

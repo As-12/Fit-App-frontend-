@@ -1,7 +1,7 @@
 export interface Progress {
   user_id: string;
-  track_date: Date;
-  weight: string;
+  track_date: Date | string;
+  weight: number;
   mood: string;
   diet: string;
 }

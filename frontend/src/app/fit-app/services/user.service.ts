@@ -82,8 +82,6 @@ export class UserService {
   }
 
   public updateUser(updateInfo: User): Observable<User> {
-    console.log("payload:");
-    console.log(updateInfo);
     let apiURL = `${this._api}/${updateInfo.id}`;
     return this.http.patch<User>(apiURL, updateInfo).pipe(retry(1));
   }
