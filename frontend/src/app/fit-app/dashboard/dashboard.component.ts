@@ -91,6 +91,9 @@ export class DashboardComponent implements OnInit {
       let series: number[] = [];
       let labels: string[] = [];
       let maxVal: number = 0;
+
+      if (res.progresses.length == 0) return;
+
       for (let i = 0; i != res.progresses.length && i < 7; ++i) {
         let progress: Progress = res.progresses[i];
         let date: string = this.datePipe.transform(progress.track_date, "M/d");
@@ -128,6 +131,9 @@ export class DashboardComponent implements OnInit {
       let labels: string[] = [];
       let maxVal: number = 0;
       let minVal: number = 0;
+
+      if (res.progresses.length == 0) return;
+
       for (let i = 0; i != res.progresses.length && i < 7; ++i) {
         let progress: Progress = res.progresses[i];
         let date: string = this.datePipe.transform(progress.track_date, "M/d");

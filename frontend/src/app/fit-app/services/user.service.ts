@@ -12,6 +12,7 @@ import { AuthService } from "app/auth/auth.service";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { switchMap, map, retry, catchError } from "rxjs/operators";
 import { NotificationService } from "./notification.service";
+import { environment } from "environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -21,7 +22,8 @@ export class UserService {
 
   public readonly user$: Observable<User> = this._user.asObservable();
 
-  private _api: string = "/api/v1/users";
+  private appUrl = environment.AppUrl;
+  private _api: string = `${this.appUrl}/api/v1/users`;
 
   constructor(
     private auth: AuthService,

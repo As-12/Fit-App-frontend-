@@ -14,6 +14,7 @@ import { switchMap, map, retry, catchError, shareReplay } from "rxjs/operators";
 import { NotificationService } from "./notification.service";
 import { UserService } from "./user.service";
 import { ProgressList, Progress } from "../model/progress.model";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -25,7 +26,8 @@ export class ProgressService {
     ProgressList
   > = this._progress.asObservable();
 
-  private _api: string = "/api/v1/progress";
+  private appUrl = environment.AppUrl;
+  private _api: string = `${this.appUrl}/api/v1/progress`;
   public user_id: string = "";
 
   constructor(

@@ -8,6 +8,7 @@ import logging
 
 import os
 from flask import Flask, jsonify, request
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 
@@ -53,10 +54,6 @@ db.init_app(app)
 
 # Load all db database
 from database import *
-
-# Db initializations
-db.drop_all()
-db.create_all()
 
 # setup flask-RESTX
 authorizations = {
