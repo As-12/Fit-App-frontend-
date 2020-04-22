@@ -12,9 +12,9 @@ export class TestDataComponent implements OnInit {
   isSubmitted: boolean = false;
 
   constructor(
-    private notification: NotificationService,
-    protected auth: AuthService,
-    private progressService: ProgressService
+    public notification: NotificationService,
+    public auth: AuthService,
+    public progressService: ProgressService
   ) {}
 
   ngOnInit(): void {}

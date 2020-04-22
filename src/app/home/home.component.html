@@ -1,4 +1,12 @@
-<video #myVideo autoplay muted loop id="myVideo">
+<video
+  #myVideo
+  autoplay
+  muted
+  loop
+  id="myVideo"
+  oncanplay="myVideo.play()"
+  onloadedmetadata="myVideo.muted = true"
+>
   <source src="./assets/video/boxing.mp4" type="video/mp4" />
 </video>
 
@@ -11,11 +19,28 @@
       <li class="nav-item text-white-50">
         <a
           class="nav-link js-scroll-trigger"
-          href="https://github.com/As-12/Fit-App"
+          href="https://github.com/As-12/Fit-App-frontend-"
           target="_blank"
-          >GitHub</a
+          >GitHub (Frontend)</a
         >
       </li>
+      <li class="nav-item text-white-50">
+        <a
+          class="nav-link js-scroll-trigger"
+          href="https://github.com/As-12/Fit-App-backend-"
+          target="_blank"
+          >GitHub (Backend)</a
+        >
+      </li>
+      <li class="nav-item text-white-50">
+        <a
+          class="nav-link js-scroll-trigger"
+          href="https://fit-app-tc.herokuapp.com/"
+          target="_blank"
+          >API</a
+        >
+      </li>
+
       <li class="nav-item text-white-50">
         <a class="nav-link js-scroll-trigger" href="#"
           ><app-license-dialog></app-license-dialog

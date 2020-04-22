@@ -7,7 +7,7 @@ import { ProgressService } from "../services/progress.service";
   styleUrls: ["./history.component.css"],
 })
 export class HistoryComponent implements OnInit {
-  constructor(private progressService: ProgressService) {}
+  constructor(public progressService: ProgressService) {}
 
   ngOnInit(): void {
     this.progressService.progress$.subscribe((res) => {

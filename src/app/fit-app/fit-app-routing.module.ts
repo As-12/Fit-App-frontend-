@@ -4,7 +4,6 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { UserProfileComponent } from "./user-profile/user-profile.component";
 import { TrackComponent } from "./track/track.component";
 import { HistoryComponent } from "./history/history.component";
-import { EditComponent } from "./edit/edit.component";
 import { TestDataComponent } from "./test-data/test-data.component";
 
 const routes: Routes = [
@@ -13,7 +12,6 @@ const routes: Routes = [
   { path: "user-profile", component: UserProfileComponent },
   { path: "track", component: TrackComponent },
   { path: "history", component: HistoryComponent },
-  // { path: "edit", component: EditComponent },  @TBD
   { path: "test", component: TestDataComponent },
 ];
 

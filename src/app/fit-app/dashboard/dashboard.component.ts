@@ -13,10 +13,10 @@ import { AuthService } from "app/auth/auth.service";
 })
 export class DashboardComponent implements OnInit {
   constructor(
-    private auth: AuthService,
-    private userService: UserService,
-    private progressService: ProgressService,
-    private datePipe: DatePipe
+    public auth: AuthService,
+    public userService: UserService,
+    public progressService: ProgressService,
+    public datePipe: DatePipe
   ) {}
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;

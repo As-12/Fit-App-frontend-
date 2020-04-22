@@ -39,10 +39,10 @@ export class TrackComponent implements OnInit {
   ];
 
   constructor(
-    private progressService: ProgressService,
-    private userService: UserService,
-    private datePipe: DatePipe,
-    private notification: NotificationService
+    public progressService: ProgressService,
+    public userService: UserService,
+    public datePipe: DatePipe,
+    public notification: NotificationService
   ) {}
 
   ngOnInit(): void {

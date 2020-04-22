@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
     location: Location,
     private element: ElementRef,
     private router: Router,
-    private auth: AuthService
+    public auth: AuthService
   ) {
     this.location = location;
     this.sidebarVisible = false;
