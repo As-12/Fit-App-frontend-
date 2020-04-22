@@ -10,7 +10,7 @@ import {
 import { User } from "../model/user.model";
 import { AuthService } from "app/auth/auth.service";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { switchMap, map, retry, catchError } from "rxjs/operators";
+import { switchMap, map, retry, catchError, shareReplay } from "rxjs/operators";
 import { NotificationService } from "./notification.service";
 import { UserService } from "./user.service";
 import { ProgressList, Progress } from "../model/progress.model";
