@@ -104,5 +104,7 @@ MIT License. See [LICENSE.md](LICENSE.md)
 ## Attribution
 
 https://freeicons.io/ - for various royalty free SVG icons
+
 https://www.videvo.net/video/young-boxer-training-with-coach-2/452776 - Homepage Boxing video
+
 https://www.creative-tim.com/ - Free Angular UI Themes
