@@ -3,9 +3,12 @@
     <div class="container-fluid">
       <div
         class="row"
-        *ngIf="progressService.progress$ | async as progressList"
+        [hidden]="
+          !(progressService.progress$ | async) ||
+          (progressService.progress$ | async)?.progresses.length == 0
+        "
       >
-        <div class="col-md-6" *ngIf="progressList.progresses.length > 0">
+        <div class="col-md-6">
           <div class="card card-chart">
             <div class="card-header card-header-success">
               <div class="ct-chart" id="dailyProgressChart"></div>
@@ -18,7 +21,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6" *ngIf="progressList.progresses.length > 0">
+        <div class="col-md-6">
           <div class="card card-chart">
             <div class="card-header card-header-warning">
               <div class="ct-chart" id="netProgressChart"></div>
@@ -26,7 +29,7 @@
             <div class="card-body">
               <h4 class="card-title">Net Progress</h4>
               <p class="card-category">
-                The delta of your current weight vs your target weight
+                Your daily net weight loss within the past 7 days.
               </p>
             </div>
           </div>

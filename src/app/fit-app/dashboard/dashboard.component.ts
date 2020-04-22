@@ -80,10 +80,10 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     //Load chart once the user has been loaded.
-    this.userService.user$.subscribe((res) => this.createDailyProgressChart());
-    this.userService.user$.subscribe((res) =>
-      this.createDailyNetProgressChart(res.target_weight)
-    );
+    this.userService.user$.subscribe((res) => {
+      this.createDailyProgressChart();
+      this.createDailyNetProgressChart();
+    });
   }
 
   createDailyProgressChart(): void {
@@ -125,7 +125,7 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  createDailyNetProgressChart(target_weight: number): void {
+  createDailyNetProgressChart(): void {
     this.progressService.get_user_progress().subscribe((res) => {
       let series: number[] = [];
       let labels: string[] = [];
@@ -137,11 +137,16 @@ export class DashboardComponent implements OnInit {
       for (let i = 0; i != res.progresses.length && i < 7; ++i) {
         let progress: Progress = res.progresses[i];
         let date: string = this.datePipe.transform(progress.track_date, "M/d");
-        let progress_val = progress.weight - target_weight;
-        if (maxVal < progress_val) maxVal = progress_val;
-        if (minVal > progress_val) minVal = progress_val;
-        series.push(progress_val);
+        series.push(progress.weight);
         labels.push(date);
+      }
+
+      let maxWeight = Math.max(...series);
+
+      for (let i = 0; i != series.length; ++i) {
+        series[i] = maxWeight - series[i];
+        if (maxVal < series[i]) maxVal = series[i];
+        if (minVal > series[i]) minVal = series[i];
       }
 
       const dataNetProgress: any = {
