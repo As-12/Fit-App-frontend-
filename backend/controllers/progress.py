@@ -52,10 +52,10 @@ class ProgressesTest(Resource):
         except Exception as e:
             print(e)
 
-
+    @progress_ns.marshal_list_with(progress_list_model)
     @requires_auth_with_same_user()
     def get(self, payload, user_id):
-        """TEST Endpoint. Generate  artificial user's progress"""
+        """TEST Endpoint. Generate  artificial user's progress and return all progress"""
 
         logger.info(f"GET request to generate test progress list for {user_id} from {request.remote_addr}")
         user = User.query.get(user_id)
@@ -69,9 +69,11 @@ class ProgressesTest(Resource):
                 self.create_random_data(d, user_id)
                 d = d - timedelta(days=1)
 
+            progress_list = Progress.query.filter(Progress.user_id == user_id).order_by(desc(Progress.track_date)).all()
             response = {
-                "success": True,
-                "message": "data has been generated"
+                "user_id": user_id,
+                "progresses": progress_list,
+                "count": len(progress_list)
             }
             return response
 

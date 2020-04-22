@@ -37,16 +37,22 @@ export class ProgressService {
     this.userService.user$
       .pipe(
         switchMap((user) => {
-          return this.get_user_progress(user);
+          this.user_id = user.id;
+          return this.get_user_progress();
         })
       )
       .subscribe((res) => {
-        this._progress.next(res);
+        console.log(`${this.user_id} progress has been loaded`);
       });
   }
 
-  public get_user_progress(user: User): Observable<ProgressList> {
-    let apiURL = `${this._api}/${user.id}`;
+  public get_user_progress(): Observable<ProgressList> {
+    if (this.user_id === "") {
+      return throwError(
+        "Oop! it looks like user profile has not been fully loaded"
+      );
+    }
+    let apiURL = `${this._api}/${this.user_id}`;
     return this.http.get<ProgressList>(apiURL).pipe(
       retry(1),
       map((res) => {
@@ -79,30 +85,26 @@ export class ProgressService {
   }
 
   private mapResponse(res: ProgressList): ProgressList {
-    this.user_id = res.user_id;
     let response: ProgressList = {
       user_id: res.user_id,
       progresses: res.progresses,
       count: res.count,
     };
+    this._progress.next(response);
     return response;
   }
 
-  public async createTestData(user_id): Promise<any> {
-    if (user_id === "") {
+  public createTestData(): Observable<ProgressList> {
+    if (this.user_id === "") {
       return throwError(
         "Oop! it looks like user profile has not been fully loaded"
       );
     }
-    let apiURL = `${this._api}/test/${user_id}`;
-    await this.http.get<any>(apiURL).toPromise();
-    let refreshURL = `${this._api}/${user_id}`;
-    return this.http
-      .get<ProgressList>(refreshURL)
-      .toPromise()
-      .then((resp) => {
-        console.log(resp);
-        this._progress.next(resp);
-      });
+    let apiURL = `${this._api}/test/${this.user_id}`;
+    return this.http.get<any>(apiURL).pipe(
+      map((res) => {
+        return this.mapResponse(res);
+      })
+    );
   }
 }

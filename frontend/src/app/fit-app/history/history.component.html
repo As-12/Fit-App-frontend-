@@ -23,7 +23,7 @@
                         Date
                       </th>
                       <th>
-                        Weight
+                        Weight (kg)
                       </th>
                       <th>
                         Mood
@@ -40,9 +40,7 @@
                         <td>
                           {{ progress.track_date | date: "mediumDate" }}
                         </td>
-                        <td>
-                          {{ progress.weight }}
-                        </td>
+                        <td>{{ progress.weight }} kg</td>
                         <td [ngSwitch]="progress.mood">
                           <!-- the same view can be shown in more than one case -->
                           <img

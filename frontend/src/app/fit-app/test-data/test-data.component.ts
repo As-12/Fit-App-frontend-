@@ -23,20 +23,20 @@ export class TestDataComponent implements OnInit {
     this.isSubmitted = true;
     console.log("Submitting");
 
-    this.progressService
-      .createTestData(user_id)
-      .then((res) => {
+    this.progressService.createTestData().subscribe(
+      (res) => {
         this.notification.showNotification(
           "Test data has been generated",
           "success"
         );
         this.isSubmitted = false;
-      })
-      .catch((err) => {
+      },
+      (err) => {
         this.notification.showNotification(
-          `Unable to generte test data due to ${err.status}`,
+          `Unable to generte test data due to HTTP ${err.status}`,
           "rose"
         );
-      });
+      }
+    );
   }
 }
